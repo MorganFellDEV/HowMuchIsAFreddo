@@ -9,6 +9,7 @@
     - [Tweepy 3.10.0](https://github.com/tweepy/tweepy)
     - [Beautiful Soup 4.9.3](https://pypi.org/project/beautifulsoup4/)
     - [Requests 2.25.1](https://pypi.org/project/requests/)
+    - [MySQL Connector for Python 8.0.23](https://pypi.org/project/mysql-connector-python/)
 
 ## Contributing
 
