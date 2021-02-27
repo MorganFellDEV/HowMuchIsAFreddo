@@ -1,0 +1,11 @@
+hmiaf-scrape/__pycache__/
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+.vscode/*
+hmiaf-tweet/package/
+hmiaf-scrape/package/
