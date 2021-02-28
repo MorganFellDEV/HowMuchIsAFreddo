@@ -2,7 +2,7 @@ import mysql.connector
 import datetime
 from bs4 import BeautifulSoup as bs
 import requests
-
+import os
 import time
 import csv
 import json
@@ -16,10 +16,12 @@ import boto3
 
 lambdaclient = boto3.client('lambda',region_name='eu-west-2')
 
+tweetBotARN = os.environ["aws_freddoBot_ARN"]
+
 mydb = mysql.connector.connect(
-    host="REDACTED",
-    user="REDACTED",
-    password="REDACTED",
+    host=os.environ["aws_aurora_host"],
+    user=os.environ["aws_aurora_username"],
+    password=os.environ["aws_aurora_password"],
     database="hmiaf"
 )
 
@@ -66,7 +68,7 @@ for item in mycursor.fetchall():
                 "MultipackQuantity": str(item[4])
             }
             response = lambdaclient.invoke(
-                FunctionName='REDACTED',
+                FunctionName=tweetBotARN,
                 InvocationType='RequestResponse',
                 Payload=json.dumps(tweetbot_inputParams)
             )
@@ -87,7 +89,7 @@ for item in mycursor.fetchall():
             }
             print("BEFORESENDING" + json.dumps(tweetbot_inputParams))
             response = lambdaclient.invoke(
-                FunctionName='REDACTED',
+                FunctionName=tweetBotARN,
                 InvocationType='RequestResponse',
                 Payload=json.dumps(tweetbot_inputParams)
             )
