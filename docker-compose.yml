@@ -1,3 +1,5 @@
+version: "3.8"
+
 services:
   hmiaf-db:
     image: mariadb/latest
@@ -5,7 +7,20 @@ services:
     ports:
       - "3306:3306"
     environment:
-      - "MYSQL_ROOT_PASSWORD=root"
-      - "MYSQL_USER=testuser"
-      - "MYSQL_PASSWORD=admin123"
-    
+      - MYSQL_ROOT_PASSWORD=dummypassword
+      - MYSQL_USER=dummyuser
+      - MYSQL_PASSWORD=dummyuserpassword
+  hmiaf-scrape:
+    image: amazonlinux/latest
+    build: hmiaf-scrape
+    depends_on:
+      - "hmiaf-db"
+    environment: 
+      - aws_freddoBot_ARN=REDACTED
+      - aws_aurora_host=hmiaf-db
+      - aws_aurora_username=dummyuser
+      - aws_aurora_password=dummyuserpassword
+      - AWS_ACCESS_KEY_ID=REDACTED
+      - AWS_SECRET_ACCESS_KEY=REDACTED
+      - AWS_DEFAULT_REGION=REDACTED
+    command: python3 /scraper/scraperMain.py
