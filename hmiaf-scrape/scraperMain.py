@@ -53,51 +53,53 @@ def start_scraper():
         elif (item[1] == "Morrisons"):
             price_scrape = scraperMorrisons.ScrapeMorrisonsFreddo(item[2])
             print("Price online: %s" % (price_scrape))
+        if (price_scrape is None):
+            continue
+        else:
+            if (price_sql != float(price_scrape)):
+                UpdateSQL(item[0], time.strftime('%Y-%m-%d %H:%M:%S'), price_scrape)
+                if (float(price_scrape) > price_sql):  # Price gone up
+                    print("Price has gone up!")
+                    # tweet price up
+                    tweetbot_inputParams = {
+                        "ItemStore": str(item[1]),
+                        "ItemOldPrice": str(price_sql),
+                        "ItemNewPrice": str(price_scrape),
+                        "ItemChange": "up",
+                        "IsMultipack": str(item[3]),
+                        "MultipackQuantity": str(item[4])
+                    }
+                    response = lambdaclient.invoke(
+                        FunctionName=tweetBotARN,
+                        InvocationType='RequestResponse',
+                        Payload=json.dumps(tweetbot_inputParams)
+                    )
+                    print("BEFORE SENDING" + json.dumps(tweetbot_inputParams))
+                    response_from_twitter_bot = json.load(response['Payload'])
+                    print(response_from_twitter_bot)
 
-        if (price_sql != float(price_scrape)):
-            UpdateSQL(item[0], time.strftime('%Y-%m-%d %H:%M:%S'), price_scrape)
-            if (float(price_scrape) > price_sql):  # Price gone up
-                print("Price has gone up!")
-                # tweet price up
-                tweetbot_inputParams = {
-                    "ItemStore": str(item[1]),
-                    "ItemOldPrice": str(price_sql),
-                    "ItemNewPrice": str(price_scrape),
-                    "ItemChange": "up",
-                    "IsMultipack": str(item[3]),
-                    "MultipackQuantity": str(item[4])
-                }
-                response = lambdaclient.invoke(
-                    FunctionName=tweetBotARN,
-                    InvocationType='RequestResponse',
-                    Payload=json.dumps(tweetbot_inputParams)
-                )
-                print("BEFORE SENDING" + json.dumps(tweetbot_inputParams))
-                response_from_twitter_bot = json.load(response['Payload'])
-                print(response_from_twitter_bot)
-
-            elif (float(price_scrape) < price_sql):  # Price gone down
-                print("Price has gone down.")
-                # tweet price down
-                tweetbot_inputParams = {
-                    "ItemStore": str(item[1]),
-                    "ItemOldPrice": str(price_sql),
-                    "ItemNewPrice": str(price_scrape),
-                    "ItemChange": "down",
-                    "IsMultipack": str(item[3]),
-                    "MultipackQuantity": str(item[4])
-                }
-                print("BEFORESENDING" + json.dumps(tweetbot_inputParams))
-                response = lambdaclient.invoke(
-                    FunctionName=tweetBotARN,
-                    InvocationType='RequestResponse',
-                    Payload=json.dumps(tweetbot_inputParams)
-                )
-                print(response)
-                response_from_twitter_bot = json.load(response['Payload'])
-                print((response_from_twitter_bot))
-            else:
-                print("No change.")
+                elif (float(price_scrape) < price_sql):  # Price gone down
+                    print("Price has gone down.")
+                    # tweet price down
+                    tweetbot_inputParams = {
+                        "ItemStore": str(item[1]),
+                        "ItemOldPrice": str(price_sql),
+                        "ItemNewPrice": str(price_scrape),
+                        "ItemChange": "down",
+                        "IsMultipack": str(item[3]),
+                        "MultipackQuantity": str(item[4])
+                    }
+                    print("BEFORESENDING" + json.dumps(tweetbot_inputParams))
+                    response = lambdaclient.invoke(
+                        FunctionName=tweetBotARN,
+                        InvocationType='RequestResponse',
+                        Payload=json.dumps(tweetbot_inputParams)
+                    )
+                    print(response)
+                    response_from_twitter_bot = json.load(response['Payload'])
+                    print((response_from_twitter_bot))
+                else:
+                    print("No change.")
 
 
     mydb.close()
