@@ -40,7 +40,7 @@ def lambda_handler(event,context):
         
         if (pt_Change == "up"): # Negative reaction
             try:
-                api.update_status(status="The price for a %sx Freddo multipack at %s has gone %s from £%s to £%s, that's £%s per Freddo%s" % (multipack_quantity, pt_Store, pt_Change, pt_oldPrice, pt_NewPrice,individualPrice, random.choice(reactions_negative)))
+                api.update_status(status="The price for a %sx Freddo multipack at @%s has gone %s from £%s to £%s, that's £%s per Freddo%s" % (multipack_quantity, pt_Store, pt_Change, pt_oldPrice, pt_NewPrice,individualPrice, random.choice(reactions_negative)))
                 return{
                     'status':'tweeted'
                 }
@@ -50,7 +50,7 @@ def lambda_handler(event,context):
             
         elif (pt_Change == "down"): # Positive reaction
             try:
-                api.update_status(status="The price for a %sx Freddo multipack at %s has gone %s from £%s to £%s, that's £%s per Freddo%s" % (multipack_quantity, pt_Store, pt_Change, pt_oldPrice, pt_NewPrice,individualPrice, random.choice(reactions_positive)))
+                api.update_status(status="The price for a %sx Freddo multipack at @%s has gone %s from £%s to £%s, that's £%s per Freddo%s" % (multipack_quantity, pt_Store, pt_Change, pt_oldPrice, pt_NewPrice,individualPrice, random.choice(reactions_positive)))
                 return{
                     'status':'tweeted'
                 }
@@ -61,7 +61,7 @@ def lambda_handler(event,context):
     elif (is_multipack == "False"):
         if (pt_Change == "up"): # Negative reaction
             try:
-                api.update_status(status="The price for a Freddo at %s has gone %s from £%s to £%s%s" % (pt_Store, pt_Change, pt_oldPrice, pt_NewPrice, random.choice(reactions_negative)))
+                api.update_status(status="The price for a Freddo at @%s has gone %s from £%s to £%s%s" % (pt_Store, pt_Change, pt_oldPrice, pt_NewPrice, random.choice(reactions_negative)))
                 return{
                     'status':'tweeted'
                 }
@@ -71,7 +71,7 @@ def lambda_handler(event,context):
             
         elif (pt_Change == "down"): # Positive reaction
             try:
-                api.update_status(status="The price for a Freddo at %s has gone %s from £%s to £%s%s" % (pt_Store, pt_Change, pt_oldPrice, pt_NewPrice, random.choice(reactions_positive)))
+                api.update_status(status="The price for a Freddo at @%s has gone %s from £%s to £%s%s" % (pt_Store, pt_Change, pt_oldPrice, pt_NewPrice, random.choice(reactions_positive)))
                 return{
                     'status':'tweeted'
                 }
