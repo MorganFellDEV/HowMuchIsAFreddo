@@ -9,6 +9,7 @@ import json
 import scraperTesco
 import scraperWaitrose
 import scraperMorrisons
+import scraperAsda
 import scraperSettings
 
 import boto3
@@ -52,6 +53,9 @@ def start_scraper():
 
         elif (item[1] == "Morrisons"):
             price_scrape = scraperMorrisons.ScrapeMorrisonsFreddo(item[2])
+            print("Price online: %s" % (price_scrape))
+        elif (item[1] == "Asda"):
+            price_scrape = scraperAsda.ScrapeAsdaFreddo(item[2])
             print("Price online: %s" % (price_scrape))
         if (price_scrape is None):
             continue
