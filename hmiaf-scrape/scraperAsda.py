@@ -11,7 +11,7 @@ def ScrapeAsdaFreddo(passthrough_link):
         asda_url_reversed = str(site_link).split('/')
         asda_url_reversed.reverse()
         actual_url = asda_url_reversed[0]
-        asda_output = requests.get(str(api_link+actual_url), headers=scraperSettings.asda_headers)
+        asda_output = requests.get(str(api_link+actual_url), headers=scraperSettings.headers)
         json_version = json.loads(asda_output.content)
         price_output=(json_version["items"][0]['price'])
         price_output = price_output.replace("£","")
