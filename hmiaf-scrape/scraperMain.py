@@ -57,6 +57,7 @@ def start_scraper():
         elif (item[1] == "ASDA"):
             price_scrape = scraperAsda.ScrapeAsdaFreddo(item[2])
             print("Price online: %s" % (price_scrape))
+        
         if (price_scrape is None):
             continue
         else:
