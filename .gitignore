@@ -9,3 +9,4 @@ Thumbs.db
 .vscode/*
 hmiaf-tweet/package/
 hmiaf-scrape/package/
+/hmiaf-testing/
